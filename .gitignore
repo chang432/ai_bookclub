@@ -1,0 +1,10 @@
+temp_external
+venv
+__pycache__
+*.pyc
+.DS_Store
+.idea
+.vscode
+node_modules
+.env
+.env.*
