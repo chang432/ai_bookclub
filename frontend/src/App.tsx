@@ -8,7 +8,7 @@ import Book from "./components/Book"
 function App() {
 
   return (
-    <div className="flex flex-col border">
+    <div className="flex flex-col">
       <Header />
       <Book title="Project Hail Mary" author="Andy Weir" />
     </div>

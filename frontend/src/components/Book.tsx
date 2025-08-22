@@ -10,6 +10,8 @@ const files = import.meta.glob<string>("../texts/*.txt", { query: "?raw", import
 // Sort by path to get stable order
 const ENTRIES = Object.entries(files).sort(([a], [b]) => a.localeCompare(b));
 
+const first_page_number = Number(ENTRIES[0]?.[0].replace("../texts/", "").replace(".txt", ""));
+
 const Book: React.FC<BookProps> = ({ title, author }) => {
     const [index, setIndex] = useState(0);
     
@@ -28,18 +30,19 @@ const Book: React.FC<BookProps> = ({ title, author }) => {
 
     const [path, rawContent] = ENTRIES[index] ?? ["", ""];
 
+    const maxPageNumber = useMemo(() => first_page_number + ENTRIES.length - 1, [first_page_number, ENTRIES]);
+
     const content = useMemo(() => {
-        // Basic cleanup: remove extra newlines and trim
         return rawContent.replace(/\r?\n/g, " ").trim();
     },[rawContent]);
 
     const pageLabel = useMemo(
-        () => `${index + 1} / ${ENTRIES.length}`,
+        () => `${first_page_number + index} / ${maxPageNumber}`,
         [index]
     );
 
     return (
-        <div className="flex flex-col border text-xl mx-auto max-w-3xl">
+        <div className="flex flex-col text-xl mx-auto max-w-3xl">
             <div>
                 <p>{title}</p>
                 <p>by {author}</p>
@@ -52,7 +55,6 @@ const Book: React.FC<BookProps> = ({ title, author }) => {
                     disabled={index === 0}
                 >◀</button>
                 <div className="rounded-2xl border bg-white p-4 text-center">
-                    <div className="mb-2 text-xs text-gray-400">{path.replace("./", "")}</div>
                     <p className="whitespace-pre-wrap wrap-break-word text-sm leading-relaxed tracking-[0.05em]">
                     {content}
                     </p>
