@@ -1,6 +1,7 @@
 texts
 temp_external
 venv
+venv-docker
 __pycache__
 *.pyc
 .DS_Store

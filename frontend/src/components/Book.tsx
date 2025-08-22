@@ -5,17 +5,19 @@ interface BookProps {
     author: string;
 }
 
-// Eagerly import all .txt files as raw strings
-const files = import.meta.glob<string>("../texts/*.txt", { query: "?raw", import: 'default', eager: true }) as Record<string, string>;
-// Sort by path to get stable order
-const ENTRIES = Object.entries(files).sort(([a], [b]) => a.localeCompare(b));
+const base_url = "http://127.0.0.1"; 
 
-const first_page_number = Number(ENTRIES[0]?.[0].replace("../texts/", "").replace(".txt", ""));
+const files = await fetch(base_url+"/texts/index.json").then(r => r.json()); // string[]
+// const current = await fetch(`${base_url}/texts/${files[idx]}`).then(r => r.text());
+
+// const files = import.meta.glob<string>("../texts/*.txt", { query: "?raw", import: 'default', eager: true }) as Record<string, string>;
+
+const first_page_number = Number(files[0].replace(".txt", ""));
 
 const Book: React.FC<BookProps> = ({ title, author }) => {
     const [index, setIndex] = useState(0);
     
-    const clamp = (i: number) => Math.max(0, Math.min(ENTRIES.length - 1, i));
+    const clamp = (i: number) => Math.max(0, Math.min(files.length - 1, i));
     const prev = () => setIndex((i) => clamp(i - 1));
     const next = () => setIndex((i) => clamp(i + 1));
 
@@ -28,13 +30,17 @@ const Book: React.FC<BookProps> = ({ title, author }) => {
     return () => window.removeEventListener("keydown", onKey);
     }, []);
 
-    const [path, rawContent] = ENTRIES[index] ?? ["", ""];
+    const maxPageNumber = useMemo(() => first_page_number + files.length - 1, [first_page_number, files]);
 
-    const maxPageNumber = useMemo(() => first_page_number + ENTRIES.length - 1, [first_page_number, ENTRIES]);
+    const [content, setContent] = useState("");
 
-    const content = useMemo(() => {
-        return rawContent.replace(/\r?\n/g, " ").trim();
-    },[rawContent]);
+    useEffect(() => {
+        const fetchContent = async () => {
+            const current = await fetch(`${base_url}/texts/${files[index]}`).then(r => r.text());
+            setContent(current.replace(/\r?\n/g, " ").trim());
+        };
+        fetchContent();
+    }, [index]);
 
     const pageLabel = useMemo(
         () => `${first_page_number + index} / ${maxPageNumber}`,
@@ -62,7 +68,7 @@ const Book: React.FC<BookProps> = ({ title, author }) => {
                 <button 
                     className="btn bg-amber-200 w-12 h-12 border flex items-center justify-center"
                     onClick={next}
-                    disabled={index === ENTRIES.length - 1}
+                    disabled={index === files.length - 1}
                 >▶</button>
             </div>
         </div>
