@@ -14,7 +14,7 @@ const files = await fetch(base_url+"/texts/index.json").then(r => r.json()); // 
 
 const first_page_number = Number(files[0].replace(".txt", ""));
 
-const Book: React.FC<BookProps> = ({ title, author }) => {
+const Book: React.FC<BookProps> = ({ date, title, author }) => {
     const [index, setIndex] = useState(0);
     
     const clamp = (i: number) => Math.max(0, Math.min(files.length - 1, i));
@@ -50,8 +50,8 @@ const Book: React.FC<BookProps> = ({ title, author }) => {
     return (
         <div className="flex flex-col text-xl mx-auto max-w-3xl">
             <div>
-                <p>{title}</p>
-                <p>by {author}</p>
+                <p className="text-red-500 mb-2">{date}</p>
+                <p className="mb-2">{title} by {author}</p>
                 <span className="text-sm text-gray-600">Page {pageLabel}</span>
             </div>
             <div className="flex flex-row space-x-5 mx-5 items-center">

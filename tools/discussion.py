@@ -19,7 +19,7 @@ class discussion:
         discuss_output = anthropic_helper.process(final_query)
 
         output_obj = {
-            "name": name,
+            "author": name,
             "post": discuss_output,
         }
 
@@ -49,7 +49,7 @@ class discussion:
         for character in self.prompts.content['characters']:
             print(character["name"])
 
-        self.process_character("Albert", section)
+        self.process_character("John", section)
 
         # if os.path.exists("")
         # with open(external_dir + "/posts")
