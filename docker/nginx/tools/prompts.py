@@ -58,7 +58,7 @@ class prompts():
         if not summary_file.exists():
             raise FileNotFoundError(f"Summary file for section {section} does not exist at {summary_file}")
 
-        return f"Summary:\n{summary_file.read_text(encoding="utf-8").strip()}"
+        return f"Summary:\n{summary_file.read_text(encoding='utf-8').strip()}"
 
     
     def combine_section_text(self, book_text_dir: str, section_number: int) -> str:

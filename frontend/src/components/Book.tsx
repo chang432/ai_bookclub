@@ -7,10 +7,10 @@ interface BookProps {
 
 const base_url = "http://127.0.0.1"; 
 
-const files = await fetch(base_url+"/texts/index.json").then(r => r.json()); // string[]
-// const current = await fetch(`${base_url}/texts/${files[idx]}`).then(r => r.text());
+const files = await fetch(base_url+"/data/index.json").then(r => r.json()); // string[]
+// const current = await fetch(`${base_url}/data/${files[idx]}`).then(r => r.text());
 
-// const files = import.meta.glob<string>("../texts/*.txt", { query: "?raw", import: 'default', eager: true }) as Record<string, string>;
+// const files = import.meta.glob<string>("../data/*.txt", { query: "?raw", import: 'default', eager: true }) as Record<string, string>;
 
 const first_page_number = Number(files[0].replace(".txt", ""));
 
@@ -36,7 +36,7 @@ const Book: React.FC<BookProps> = ({ date, title, author }) => {
 
     useEffect(() => {
         const fetchContent = async () => {
-            const current = await fetch(`${base_url}/texts/${files[index]}`).then(r => r.text());
+            const current = await fetch(`${base_url}/data/${files[index]}`).then(r => r.text());
             setContent(current.replace(/\r?\n/g, " ").trim());
         };
         fetchContent();

@@ -1,6 +1,6 @@
-from prompts import prompts
+from tools.prompts import prompts
 from pathlib import Path
-import anthropic_helper
+from tools.anthropic_helper import anthropic_helper
 
 class summary:
     def __init__(self, prompt_location: str, book_text_location: str):

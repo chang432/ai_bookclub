@@ -9,7 +9,7 @@ services:
     volumes:
       - ${NGINX_HOST_CONFIG_PATH:-./nginx/default.cloud.conf}:/etc/nginx/conf.d/default.conf
       - ${LETSENCRYPT_HOST_PATH:-/tmp}:/etc/letsencrypt     # Only for cloud deployment.
-      - ${TEXT_HOST_PATH:-/texts}:/texts
+      - ${DATA_HOST_PATH:-/data}:/data
       - ${PARTITION_PATH:-~/TEMP}/log/container-nginx:/var/log/container-nginx
       - ../temp_external:/opt/temp_external  # temp
     # depends_on:

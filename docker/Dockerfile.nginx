@@ -1,9 +1,15 @@
-FROM nginx:stable
+FROM python:3.11.9-slim-bookworm as pybase
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+FROM nginx:1.27.2-bookworm
+COPY --from=pybase /usr/local /usr/local
+
+ENV PATH="/usr/local/bin:${PATH}"
 
 WORKDIR /opt
 
-COPY nginx/deploy.sh ./
-
-COPY nginx/nginx.conf ./
+COPY nginx ./
 
 CMD [ "bash", "deploy.sh" ]
