@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Split a PDF into per-page text files arranged in 10-page sections.
+Split a PDF into per-page text files arranged in X-page sections.
 
 Output structure (created in the same directory as this script):
   {pdf_stem}/
@@ -23,8 +23,31 @@ import argparse
 import os
 import re
 import sys
+import shutil
+import json
 from pathlib import Path
 from pypdf import PdfReader
+
+PAGES_PER_SECTION = 5
+
+
+def create_index(text_path: Path):
+    for section in os.listdir(text_path):
+        section_path = text_path / section
+        
+        # Ensure it's a directory
+        if os.path.isdir(section_path):
+            # Get all .txt files in the section folder
+            txt_files = [f for f in os.listdir(section_path) if f.endswith('.txt')]
+            
+            # Sort the files numerically based on the number in the filename
+            txt_files.sort(key=lambda x: int(x.split('.')[0]))
+            
+            # Create the index.json file
+            index_file_path = section_path / 'index.json'
+            with open(index_file_path, 'w') as index_file:
+                json.dump(txt_files, index_file)
+
 
 def sanitize_text(text: str) -> str:
     """
@@ -43,7 +66,7 @@ def sanitize_text(text: str) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Parse a PDF and write per-page text files grouped into 10-page sections.")
+    parser = argparse.ArgumentParser(description=f"Parse a PDF and write per-page text files grouped into {PAGES_PER_SECTION}-page sections.")
     parser.add_argument("pdf_path", type=Path, help="Path to the input PDF")
     args = parser.parse_args()
 
@@ -52,9 +75,13 @@ def main():
         print(f"Error: '{pdf_path}' does not exist or is not a PDF.", file=sys.stderr)
         sys.exit(1)
 
-    # Determine the base output directory (next to this script)
-    script_dir = Path(__file__).resolve().parent
-    out_root = script_dir / pdf_path.stem
+    # Create output directory structure
+    base_path = pdf_path.parent / pdf_path.stem 
+    text_path = base_path / f"{pdf_path.stem}_text"
+
+    text_path.mkdir(parents=True, exist_ok=True)
+
+    shutil.copy(pdf_path, base_path)
 
     try:
         reader = PdfReader(str(pdf_path))
@@ -75,13 +102,10 @@ def main():
         print("PDF has 0 pages; nothing to do.", file=sys.stderr)
         sys.exit(1)
 
-    # Create the root output folder
-    out_root.mkdir(parents=True, exist_ok=True)
-
     for page_idx in range(num_pages):
         page_number = page_idx + 1  # 1-based
-        section_number = (page_number - 1) // 5 + 1
-        section_dir = out_root / f"section_{section_number}"
+        section_number = (page_number - 1) // PAGES_PER_SECTION + 1
+        section_dir = text_path / f"section_{section_number}"
         section_dir.mkdir(parents=True, exist_ok=True)
 
         try:
@@ -99,8 +123,14 @@ def main():
             print(f"Error writing {out_file}: {e}", file=sys.stderr)
             sys.exit(1)
 
-    print(f"Done. Wrote {num_pages} pages into '{out_root}'.")
-    print("Sections contain exactly 5 pages each, except the last one which may have ≤5.")
+    print(f"Wrote {num_pages} pages into '{text_path}'.")
+    print(f"Sections contain exactly {PAGES_PER_SECTION} pages each, except the last one which may have ≤{PAGES_PER_SECTION}.")
+    print("Now creating index.json files for each section...")
+
+    create_index(text_path)
+
+    print("Removing pdf from source location now that processing is complete...")
+    os.remove(pdf_path)
 
 
 if __name__ == "__main__":
