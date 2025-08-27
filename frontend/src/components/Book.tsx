@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 interface BookProps {
+    date: string;
     title: string;
     author: string;
 }
