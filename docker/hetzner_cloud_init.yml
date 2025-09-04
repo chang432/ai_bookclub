@@ -24,7 +24,6 @@ runcmd:
 
   - chmod +x /opt/docker/start_cloud.sh
   - chmod +x /opt/docker/start_cloud_helper.sh
-  - /opt/docker/start_cloud.sh
   - (crontab -l; echo "*/1 * * * * /opt/docker/start_cloud.sh >> /var/log/start_cloud.log 2>&1") | crontab -    
   # - chmod +x /opt/docker/update.sh
   # - (crontab -l; echo "* 16 * * * /opt/docker/update.sh >> /var/log/update.log 2>&1") | crontab -     # 12 AM daily
