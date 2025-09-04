@@ -4,13 +4,13 @@
 # Example: ./start_cloud.sh --ip "5.161.21.191" --partition-names "HC_Volume_102861833 HC_Volume_102894653" --docker-path "/opt/docker"
 
 
-"""
+: '
 This script executes required instance setup logic at intervals of a minute based on the flags specified. 
 - If floating ip is specified, it will add the floating ip to the network interface eth0
 - If partition names are specified, it will wait until one of the specified external volumes is attached and then mount it
 -- It will also export the path to the mounted volume as PARTITION_PATH in /opt/shared_env.sh
 - It will then start up the docker containers in the specified path using docker-compose
-"""
+'
 
 exec > >(tee -a /var/log/start_cloud_helper.log) 2>&1
 
