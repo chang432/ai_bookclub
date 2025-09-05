@@ -13,6 +13,8 @@ mkdir -p /webapp
 
 cp -r /opt/external_volume/webapp/* /webapp/
 
-cp -r /opt/external_volume/data/* /data/
+source /opt/external_volume/.env
+
+python3 /opt/update --transfer-only
 
 nginx -g "daemon off;"

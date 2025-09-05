@@ -12,4 +12,6 @@ WORKDIR /opt
 
 COPY nginx ./
 
+COPY tools/update.py ./
+
 CMD [ "bash", "deploy.sh" ]
