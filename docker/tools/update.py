@@ -10,7 +10,7 @@ def main():
         shutil.rmtree(SERVE_ROOT_PATH)
         SERVE_ROOT_PATH.mkdir(parents=True, exist_ok=True)
     
-    book_status_path = SRC_ROOT_PATH / "book_status.json"
+    book_status_path = SRC_ROOT_PATH / "data" / "book_status.json"
     book_status = json.loads(book_status_path.read_text())
 
     prev_section = book_status["current_section"]
@@ -40,11 +40,11 @@ def main():
 
     # Bring txt pages + index.json + summary.txt over
     shutil.copytree(
-        SRC_ROOT_PATH / "books" / current_book / f"{current_book}_text" / f"section_{next_section}/",
+        SRC_ROOT_PATH / "data" / "books" / current_book / f"{current_book}_text" / f"section_{next_section}/",
         SERVE_ROOT_PATH, dirs_exist_ok=True)
 
     # Bring over posts.json
-    shutil.copy(SRC_ROOT_PATH / "posts" / f"section_{next_section}" / f"post_{next_section}.json", SERVE_ROOT_PATH / "posts.json")
+    shutil.copy(SRC_ROOT_PATH / "data" / "posts" / f"section_{next_section}" / f"post_{next_section}.json", SERVE_ROOT_PATH / "posts.json")
     
     if not TRANSFER_ONLY:
         # Update status file
