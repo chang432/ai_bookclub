@@ -15,6 +15,6 @@ cp -r /opt/external_volume/webapp/* /webapp/
 
 source /opt/external_volume/.env
 
-python3 /opt/update --transfer-only
+python3 /opt/update.py --transfer-only
 
 nginx -g "daemon off;"

@@ -11,6 +11,7 @@ services:
       - ${LETSENCRYPT_HOST_PATH:-/tmp}:/etc/letsencrypt     # Only for cloud deployment.
       # - ${PARTITION_PATH:-~/TEMP}/log/container-nginx:/var/log/container-nginx
       - ${PARTITION_PATH}:/opt/external_volume
+      - tools:/opt/tools
     # depends_on:
     #   - flask
     networks:
