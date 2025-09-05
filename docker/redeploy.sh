@@ -2,6 +2,8 @@ cd /opt
 
 mv docker/redeploy.sh ./redeploy.sh
 
+chmod +x ./redeploy.sh
+
 rm -rf /opt/docker
 
 git clone https://github.com/chang432/ai_bookclub.git
