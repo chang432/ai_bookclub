@@ -6,9 +6,9 @@ import json
 
 
 def main():
-    if SRC_ROOT_PATH.exists():
+    if SERVE_ROOT_PATH.exists():
         shutil.rmtree(SERVE_ROOT_PATH)
-        SRC_ROOT_PATH.mkdir(parents=True, exist_ok=True)
+        SERVE_ROOT_PATH.mkdir(parents=True, exist_ok=True)
     
     book_status_path = SRC_ROOT_PATH / "book_status.json"
     book_status = json.loads(book_status_path.read_text())
