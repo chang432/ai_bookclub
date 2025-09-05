@@ -1,10 +1,4 @@
-rm -f /opt/redeploy.sh
-
 cd /opt
-
-mv docker/redeploy.sh ./redeploy.sh
-
-chmod +x ./redeploy.sh
 
 rm -rf /opt/docker
 
