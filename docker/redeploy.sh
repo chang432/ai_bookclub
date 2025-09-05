@@ -13,3 +13,7 @@ chmod +x docker/start_cloud.sh
 chmod +x docker/start_cloud_helper.sh
 
 bash docker/start_cloud.sh
+
+cd docker
+
+docker-compose logs -f
