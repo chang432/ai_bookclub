@@ -1,8 +1,12 @@
+rm -rf /opt/docker
+
 cd /opt
 
 git clone https://github.com/chang432/ai_bookclub.git
 
 mv ai_bookclub/docker ./
+
+rm -rf ai_bookclub
 
 cd docker
 
