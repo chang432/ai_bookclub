@@ -14,7 +14,7 @@ def main():
     book_status = json.loads(book_status_path.read_text())
 
     prev_section = book_status["current_section"]
-    current_book = json.loads((SRC_ROOT_PATH / "books" / "books.json").read_text())[book_status["book_idx"]]
+    current_book = json.loads((SRC_ROOT_PATH / "data" / "books" / "books.json").read_text())[book_status["book_idx"]]
     print(f"Current book: {current_book}")
 
     if not TRANSFER_ONLY:
