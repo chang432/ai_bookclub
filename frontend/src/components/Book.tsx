@@ -6,7 +6,7 @@ interface BookProps {
     author: string;
 }
 
-const base_url = "http://127.0.0.1"; 
+const base_url = "http://localhost"; 
 
 const files = await fetch(base_url+"/data/index.json").then(r => r.json()); // string[]
 // const current = await fetch(`${base_url}/data/${files[idx]}`).then(r => r.text());

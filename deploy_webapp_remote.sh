@@ -8,10 +8,10 @@ cd frontend
 
 npm run build
 
-find ./frontend/dist -type f -name "*.js" -exec sed -i '' "s/127\.0\.0\.1/${REMOTE_ENDPOINT}/g" {} +
+find ./frontend/dist -type f -name "*.js" -exec sed -i '' "s/localhost/${REMOTE_ENDPOINT}/g" {} +
 
 ssh root@"$REMOTE_ENDPOINT" "rm -rf ${PARTITION_PATH}/webapp"
 
 scp -r dist/* root@"$REMOTE_ENDPOINT":"${PARTITION_PATH}/webapp"
 
-find ./frontend/dist -type f -name "*.js" -exec sed -i '' "s/127\.0\.0\.1/178.156.178.248/g" {} +
+find ./frontend/dist -type f -name "*.js" -exec sed -i '' "s/${REMOTE_ENDPOINT}/localhost/g" {} +

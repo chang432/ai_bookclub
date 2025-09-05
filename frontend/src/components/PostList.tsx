@@ -1,7 +1,7 @@
 import React from 'react';
 import Post from "./Post";
 
-const base_url = "http://127.0.0.1"; 
+const base_url = "http://localhost"; 
 
 const posts = await fetch(base_url+"/data/posts.json").then(r => r.json()); // string[]
 

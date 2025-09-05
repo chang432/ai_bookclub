@@ -10,7 +10,7 @@ services:
       - ${NGINX_HOST_CONFIG_PATH:-./nginx/default.cloud.conf}:/etc/nginx/conf.d/default.conf
       - ${LETSENCRYPT_HOST_PATH:-/tmp}:/etc/letsencrypt     # Only for cloud deployment.
       # - ${PARTITION_PATH:-~/TEMP}/log/container-nginx:/var/log/container-nginx
-      - ${PARTITION_PATH}:/opt/external_volume
+      - ${PARTITION_PATH:-../temp_external}:/opt/external_volume
       - ./tools:/opt/tools
     # depends_on:
     #   - flask
