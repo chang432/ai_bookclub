@@ -8,10 +8,8 @@ mv ai_bookclub/docker ./
 
 rm -rf ai_bookclub
 
-cd docker
+chmod +x docker/start_cloud.sh
 
-chmod +x start_cloud.sh
+chmod +x docker/start_cloud_helper.sh
 
-chmod +x start_cloud_helper.sh
-
-bash start_cloud.sh
+bash docker/start_cloud.sh
