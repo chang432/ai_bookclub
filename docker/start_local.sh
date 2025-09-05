@@ -6,6 +6,7 @@
 export TEMP_DIR="/Users/andrechang/TEMP"   # CHANGE ME to desired location 
 export DATA_HOST_PATH="${TEMP_DIR}/data"   
 export NGINX_HOST_CONFIG_PATH="./nginx/default.local.conf"
+export PARTITION_PATH="../temp_external"
 
 mkdir -p "${TEMP_DIR}"
 

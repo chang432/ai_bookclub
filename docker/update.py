@@ -65,7 +65,7 @@ if __name__ == "__main__":
         SRC_ROOT_PATH = Path("../temp_external")
         SERVE_ROOT_PATH = Path("/Users/andrechang/TEMP/data")
     else:
-        SRC_ROOT_PATH = Path("/opt/temp_external")
+        SRC_ROOT_PATH = Path("/mnt/")
         SERVE_ROOT_PATH = Path("/data")
 
     main()

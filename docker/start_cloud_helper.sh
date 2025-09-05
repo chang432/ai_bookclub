@@ -68,9 +68,10 @@ while true; do
                 mkdir -p "$cur_local_path"
                 mount -o discard,defaults "$cur_external_path" "$cur_local_path"
 
-                echo "export PARTITION_PATH=${cur_local_path}" > /opt/shared_env.sh
+                echo "export PARTITION_PATH=${cur_local_path}" > /opt/shared_env.sh  # For future scripts that need partition path
 
                 chmod +x /opt/shared_env.sh
+                source /opt/shared_env.sh
                 
                 PARTITION_ADDED=1
                 break

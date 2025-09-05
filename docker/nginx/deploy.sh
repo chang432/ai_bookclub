@@ -10,7 +10,7 @@ apt install -y vim
 cp /opt/nginx.conf /etc/nginx/nginx.conf
 
 mkdir -p /webapp
-cp -r /opt/temp_external/webapp/* /webapp/
+cp -r /opt/external_volume/webapp/* /webapp/
 
 # cp -r /opt/temp_external/books/project_hail_mary/project_hail_mary_text/section_3/* /data/
 
