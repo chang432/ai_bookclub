@@ -29,7 +29,7 @@ def main():
             next_section = 1
             book_status["book_idx"] += + 1
 
-        d = discussion(SRC_ROOT_PATH, current_book)
+        d = discussion(SRC_ROOT_PATH / "data", current_book)
         d.process_section(next_section)
 
         print("=======================================================================================================")
