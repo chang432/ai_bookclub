@@ -10,6 +10,7 @@ services:
       - ${NGINX_HOST_CONFIG_PATH:-./nginx/default.cloud.conf}:/etc/nginx/conf.d/default.conf
       - ${LETSENCRYPT_HOST_PATH:-/tmp}:/etc/letsencrypt     # Only for cloud deployment.
       - ${DATA_HOST_PATH:-/data}:/data
+      - ${WEBAPP_HOST_PATH:-/webapp}:/webapp
       # - ${PARTITION_PATH:-~/TEMP}/log/container-nginx:/var/log/container-nginx
       - ${PARTITION_PATH}:/opt/external_volume
     # depends_on:
