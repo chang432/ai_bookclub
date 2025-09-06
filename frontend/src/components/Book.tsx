@@ -1,21 +1,26 @@
 import { useEffect, useMemo, useState } from "react";
 
-interface BookProps {
-    date: string;
-    title: string;
-    author: string;
-}
-
 const base_url = "http://localhost"; 
 
+function getCurrentUTCDate(): string {
+  const now = new Date();
+
+  const month = String(now.getUTCMonth() + 1).padStart(2, "0"); // months are 0-based
+  const day = String(now.getUTCDate()).padStart(2, "0");
+  const year = now.getUTCFullYear();
+
+  return `${month}/${day}/${year}`;
+}
+
 const files = await fetch(base_url+"/data/index.json").then(r => r.json()); // string[]
+const book_info = await fetch(base_url+"/data/book_info.json").then(r => r.json()); 
 // const current = await fetch(`${base_url}/data/${files[idx]}`).then(r => r.text());
 
 // const files = import.meta.glob<string>("../data/*.txt", { query: "?raw", import: 'default', eager: true }) as Record<string, string>;
 
 const first_page_number = Number(files[0].replace(".txt", ""));
 
-const Book: React.FC<BookProps> = ({ date, title, author }) => {
+const Book: React.FC = () => {
     const [index, setIndex] = useState(0);
     
     const clamp = (i: number) => Math.max(0, Math.min(files.length - 1, i));
@@ -51,8 +56,8 @@ const Book: React.FC<BookProps> = ({ date, title, author }) => {
     return (
         <div className="flex flex-col text-xl mx-auto max-w-3xl">
             <div>
-                <p className="text-red-500 mb-2">{date}</p>
-                <p className="mb-2">{title} by {author}</p>
+                <p className="text-red-500 mb-2">{getCurrentUTCDate()}</p>
+                <p className="mb-2">{book_info["title_display"]} by {book_info["author"]}</p>
                 <span className="text-sm text-gray-600">Page {pageLabel}</span>
             </div>
             <div className="flex flex-row space-x-5 mx-5 items-center">

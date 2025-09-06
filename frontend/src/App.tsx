@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="flex flex-col items-center space-y-20 border p-10">
       <Header />
-      <Book date="08/24/25" title="Project Hail Mary" author="Andy Weir" />
+      <Book />
       <PostList />
     </div>
   )

@@ -14,13 +14,13 @@ def main():
     book_status = json.loads(book_status_path.read_text())
 
     prev_section = book_status["current_section"]
-    current_book = json.loads((SRC_ROOT_PATH / "data" / "books.json").read_text())[book_status["book_idx"]]
-    print(f"Current book: {current_book}")
+    book_info = json.loads((SRC_ROOT_PATH / "data" / "books.json").read_text())[book_status["book_idx"]]
+    print(f"Current book: {book_info}")
 
     if not TRANSFER_ONLY:
         # Skip generation if just transferring
 
-        max_section = book_status["max_section"]
+        max_section = book_info["max_section"]
 
         next_section = prev_section + 1
 
@@ -29,7 +29,7 @@ def main():
             next_section = 1
             book_status["book_idx"] += + 1
 
-        d = discussion(SRC_ROOT_PATH / "data", current_book)
+        d = discussion(SRC_ROOT_PATH / "data", book_info["title"])
         d.process_section(next_section)
 
         print("=======================================================================================================")
@@ -40,11 +40,15 @@ def main():
 
     # Bring txt pages + index.json + summary.txt over
     shutil.copytree(
-        SRC_ROOT_PATH / "data" / "books" / current_book / f"{current_book}_text" / f"section_{next_section}/",
+        SRC_ROOT_PATH / "data" / "books" / book_info["title"] / f"{book_info['title']}_text" / f"section_{next_section}/",
         SERVE_ROOT_PATH, dirs_exist_ok=True)
 
     # Bring over posts.json
     shutil.copy(SRC_ROOT_PATH / "data" / "posts" / f"section_{next_section}" / f"post_{next_section}.json", SERVE_ROOT_PATH / "posts.json")
+
+    # Bring over current book info as json
+    current_book_info = SERVE_ROOT_PATH / "book_info.json"
+    current_book_info.write_text(json.dumps(book_info, indent=4))
     
     if not TRANSFER_ONLY:
         # Update status file
